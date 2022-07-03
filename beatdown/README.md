@@ -9,11 +9,11 @@ Often times when producing a song the drummer will speed up (or slow down) a lit
 
 - manually create tempo markers so that the grid lines up to the downbeats. This can be done manually (which is time consuming) or by using a tool like Beat Detective which is not very accurate.
 
-Because the commercially available solutions for this problem don't do a very good job I decided to use the latest in ML research to solve this problem.
+Because the commercially available solutions for this problem don't do a very good job I decided to use a machine learning library (madmom) to solve this problem.
 
 __Beatdown__ is a simple python script that will use a modern ML system to recognize the downdeats of a track (or complete/mixed song) and use them to create a tempo track that you can import into your DAW. 
 
-This is useful if you want to create a tempo map from the session you are recording (by feeding a drum stem to the script) or if you want to remix a final song. Just add the generated MIDI file to a blank MIDI track in your porject and most DAWs should be able to follow along.
+This is useful if you want to create a tempo map from the session you are recording (by feeding a drum stem to the script) or if you want to remix a final song. Just add the generated MIDI file to a blank MIDI track in your project and most DAWs should be able to follow along.
 
 ## Installation ##
 
