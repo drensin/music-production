@@ -38,9 +38,6 @@ def main():
         mf = midiutil.MIDIFile(1)
         mf.addTrackName(time=0, track=0, trackName="Tempo Track")
 
-        last_pos = 0
-        last_index = 0
-
         # the items contained in downbeats are in the form of:
         # 
         # [time_in_sec, bar_position]
@@ -51,23 +48,23 @@ def main():
         # up
         #
 
-        for i, item in enumerate(downbeats):
+        last_bar_top_index = 0
 
-            if item[1] != 1 or i == 0:
+        for i in range(1, len(downbeats)):
+            time_stamp, bar_position = downbeats[i]
+
+            if bar_position != 1:
                 continue
 
-            # time (in sec) since we started the bar
-            duration = item[0] - last_pos  
-            
-            # compute the tempo of the bar we just completed
-            tempo = ((i-last_index)/duration) * 60 
+            last_bar_top_timestamp, _ = downbeats[last_bar_top_index]
+            bar_duration = time_stamp - last_bar_top_timestamp
 
-            # write the tempo and a click
-            mf.addTempo(track=0, time=i, tempo=tempo)
-            mf.addNote(track=0, channel=9, pitch=56, time=i, duration=1, volume=255)
+            bar_tempo = ((i - last_bar_top_index)/bar_duration) * 60
 
-            last_pos = item[0]
-            last_index = i
+            mf.addTempo(track=0, time=last_bar_top_index, tempo=bar_tempo)
+            mf.addNote(track=0, channel=9, pitch=56, time=i,  duration=1, volume=255)
+
+            last_bar_top_index = i
 
         # write the MIDI file
         with open (f + ".tempo.mid", "wb") as of:
